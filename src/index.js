@@ -24,7 +24,8 @@ const reducer = (state = [], action) => {
     case ADD_TODO:
       return [{ text: action.text, id: action.id }, ...state]; // Never mutating state!, Naver use Date.now() in reducer! check the doc!
     case DELETE_TODO:
-      return [];
+      console.log(action.id);
+      return state.filter((toDo) => toDo.id !== action.id);
     default:
       return state;
   }
@@ -39,7 +40,7 @@ const dispatchAddTodo = (text) => {
 };
 
 const dispatchDeleteTodo = (event) => {
-  const id = event.target.parentNode.id;
+  const id = parseInt(event.target.parentNode.id);
   store.dispatch(deleteToDo(id));
 };
 
@@ -57,6 +58,7 @@ const paintTodos = () => {
     ul.appendChild(li);
   });
 };
+
 store.subscribe(paintTodos);
 
 const onSubmit = (event) => {
